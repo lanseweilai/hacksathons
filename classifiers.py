@@ -214,7 +214,6 @@ def xgb_clf(X_train_data,Y_train_data):
       'colsample_bytree':0.8,
       'gama':0,
       'seed':0,
-      'nthread':8,
        'silent':1 }
     model = xgb.XGBClassifier(**other_params)
     optimized_GBM = GridSearchCV(estimator=model, param_grid=cv_params, scoring='f1', cv=5, verbose=1, n_jobs=4)
@@ -228,7 +227,7 @@ def xgb_clf(X_train_data,Y_train_data):
     ##最佳4,3
 
 #########调节参数gamma###############
-    cv_params = {'gamma':[0.1,0.2,0.3,0.4,0.5,0.6]}
+    cv_params = {'gama':[0.1,0.2,0.3,0.4,0.5,0.6]}
     other_params = {
          'booster':'gbtree',
          'objective': 'binary:logistic',
@@ -241,7 +240,6 @@ def xgb_clf(X_train_data,Y_train_data):
          'colsample_bytree':0.8,
          'gama':0,
          'seed':0,
-         'nthread':8,
           'silent':1 }
     model = xgb.XGBClassifier(**other_params)
     optimized_GBM = GridSearchCV(estimator=model, param_grid=cv_params, scoring='f1', cv=5, verbose=1, n_jobs=4)
@@ -267,7 +265,6 @@ def xgb_clf(X_train_data,Y_train_data):
          'colsample_bytree':0.6,
          'gama':gama_best,
          'seed':0,
-         'nthread':8,
           'silent':1 }
     model = xgb.XGBClassifier(**other_params)
     optimized_GBM = GridSearchCV(estimator=model, param_grid=cv_params, scoring='f1', cv=5, verbose=1, n_jobs=4)
@@ -301,7 +298,6 @@ def xgb_clf(X_train_data,Y_train_data):
          'colsample_bytree':colsample_bytree_best,
          'gama':0.6,
          'seed':0,
-         'nthread':8,
           'silent':1}
        watchlist = [(dtrain,'train')]
        bst = xgb.train(params,dtrain,num_boost_round=100,evals=watchlist)
@@ -483,7 +479,6 @@ def XGBoost_test(X_train, Y_train, X_test, xgb_norm, dim_para):
               'colsample_bytree': colsample_bytree_best,
               'gama': 0.6,
               'seed': 0,
-              'nthread': 8,
               'silent': 1}
     watchlist = [(dtrain, 'train')]
     bst = xgb.train(params, dtrain, num_boost_round=100, evals=watchlist)
