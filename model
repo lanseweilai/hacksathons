@@ -1,0 +1,38 @@
+import pandas as pd
+import numpy as np
+import classifiers as cls
+
+
+
+#####################################read data#################################
+#  no header;
+train_file_path = 'E:/hackathons/data/data/feature.csv'
+test_file_path = 'E:/hackathons/data/data/fea.csv'
+
+train_data = pd.read_csv(train_file_path, delimiter=',',header=None,dtype=float)
+train_data = np.array(train_data)
+X_train_data = train_data[:,0:-1]
+Y_train_data = train_data[:,-1]
+
+test_data = pd.read_csv(test_file_path, delimiter=',', header=None)
+test_data = np.array(test_data)
+X_test_data = test_data[:,0:-1]
+
+###############################only train#################################
+lr_norm = 0
+svm_norm = 0
+glr_norm = 0
+dim_para = 0
+xgb_norm = 0
+train_and_test = 0 # 0 ：只是在训练集上训练模型 1：在测试集上进行测试
+if train_and_test == 0:
+    cls.LR_clf(X_train_data,Y_train_data)
+    cls.SVM_clf(X_train_data,Y_train_data)
+    cls.gbdt_lr_clf(X_train_data,Y_train_data)
+    cls.xgb_clf(X_train_data, Y_train_data)
+
+if train_and_test == 1 :
+    lr_card_list = cls.lr_test(X_train_data,Y_train_data,X_test_data,lr_norm,dim_para)
+    svm_card_list = cls.SVM_test(X_train_data,Y_train_data,X_test_data,svm_norm,dim_para)
+    gblr_card_list = cls.GBDT_LR_test(X_train_data,Y_train_data,X_test_data,glr_norm,dim_para)
+    xgb_cad_list = cls.XGBoost_test(X_train_data, Y_train_data, X_test_data, xgb_norm, dim_para)
