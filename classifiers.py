@@ -353,7 +353,6 @@ def lr_test(X_train,Y_train,X_test,lr_norm,dim_para):
         n_jobs=1)
     lr_classifier.fit(X_train, Y_train)
     lr_predictions = lr_classifier.predict(X_test)
-    lr_label = (lr_predictions>=0.5) * 1
     print("LR predict positive label number: %d" % (sum(lr_label == 1)))
     card_list = X_test_org[lr_label==1,0]
     return card_list
@@ -395,7 +394,6 @@ def SVM_test(X_train,Y_train,X_test,svm_norm,dim_para):
             random_state=None)
     svm_classifier.fit(X_train, Y_train)
     svm_predictions = svm_classifier.predict(X_test)
-    svm_label = (svm_predictions>=0.5) * 1
     print("svm predict positive label number: %d" % (sum(svm_label == 1)))
     card_list = X_test_org[svm_label==1,0]
     return card_list
@@ -433,7 +431,6 @@ def GBDT_LR_test(X_train,Y_train,X_test,glr_norm,dim_para):
     grd_enc.fit(grd.apply(X_train)[:, :, 0])
     grd_lm.fit(grd_enc.transform(grd.apply(X_train_lr)[:, :, 0]), y_train_lr)
     gblr_predictions = grd_lm.predict_proba(grd_enc.transform(grd.apply(X_test)[:, :, 0]))[:, 1]
-    gblr_predictions = (gblr_predictions>=0.5)*1
     gblr_label = (gblr_predictions>=0.5) * 1
     print("gbdt_lr predict positive label number: %d" % (sum(gblr_label == 1)))
     card_list = X_test_org[gblr_label == 1,0]
@@ -483,8 +480,6 @@ def XGBoost_test(X_train, Y_train, X_test, xgb_norm, dim_para):
     watchlist = [(dtrain, 'train')]
     bst = xgb.train(params, dtrain, num_boost_round=100, evals=watchlist)
     clf_predictions = bst.predict(dtest)
-    clf_predictions = (clf_predictions >= 0.5) * 1
-    clf_predictions = (clf_predictions >= 0.5) * 1
     clf_label = (clf_predictions >= 0.5) * 1
     print("XGBoost predict positive label number: %d" % (sum(clf_label == 1)))
     card_list = X_test_org[clf_label == 1, 0]
